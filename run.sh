@@ -1,8 +1,12 @@
 #!/bin/bash
 
-docker rm -f test
+echo "Creating home-net network"
+docker network create home-net
 
-docker run --name="test" \
-    -p 3001:80 \
-    -v /Users/theringleman/development/lumen/test:/var/www/html/ \
-    -d test
+docker rm -f yourservice
+
+docker run --name="yourservice" \
+    -p 30010:80 \
+    -v /home/theringleman/Development/homeFinanceV2:/var/www/html/ \
+    --network='home-net' \
+    -d yourservice

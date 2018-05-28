@@ -14,7 +14,3 @@
 $router->get('/', function () use ($router) {
     echo 'Chello again';
 });
-
-$router->get('/about', function () use ($router) {
-    echo "this is my about page and it works";
-});

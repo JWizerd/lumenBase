@@ -1,2 +1,2 @@
 #!/bin/bash
-docker container build -t test .
+docker build -t yourservice .

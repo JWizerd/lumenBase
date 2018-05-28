@@ -12,10 +12,15 @@ class ExampleTest extends TestCase
      */
     public function testExample()
     {
-        $this->get('/');
+        $response = $this->call('GET', '/accounts');
+        $this->assertEquals(200, $response->status());
+    }
 
-        $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
-        );
+    public function testAgain()
+    {
+        $this->json('GET', '/accounts')
+            ->seeJson([
+                'type' => 'Checking'
+            ]);
     }
 }
