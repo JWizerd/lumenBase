@@ -11,6 +11,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    echo 'Chello again';
+$router->group(['middleware' => 'auth', 'prefix' => 'recipes'], function () use ($router) {
+    $router->get('/', 'RecipeController@index');
+    $router->get('/{recipe}', 'RecipeController@show');
 });
+
+

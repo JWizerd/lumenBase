@@ -35,10 +35,20 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+
+        if ($this->correctCredentials($request)) {
+            $headers = array(
+                'WWW-Authenticate' => 'Basic', 
+                'Content-Type' => 'application/json'
+            );
+            return response('Admin Login', 401, $headers);
         }
 
         return $next($request);
+    }
+
+    public function correctCredentials($request) : bool
+    {
+        return ($request->getUser() !== (string)env('USER')) && ($request->getPassword() !== (string)env('KEY'));
     }
 }
