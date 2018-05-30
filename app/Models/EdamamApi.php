@@ -13,6 +13,8 @@ class EdamamApi extends GuzzleProvider
 
     const URL = "https://api.edamam.com";
 
+    protected $baseParams;
+
     public function __construct() 
     {
         $this->setApiBase();
@@ -20,8 +22,17 @@ class EdamamApi extends GuzzleProvider
 
     protected function setApiBase()
     {
-        $this->base_uri = self::URL . '/app_id=' . env('EDAMAM_ID') . '&app_key=' . env('EDAMAM_KEY');
+        $this->base_uri = self::URL;
         $this->setHeader('Accept-Encoding', 'gzip');
+        $this->setBaseParams();
+    }
+
+    protected setBaseParams()
+    {
+        $this->baseParams = [
+            'app_id' => env('EDAMAM_ID'),
+            'app_key' => env('EDAMAM_KEY')
+        ]
     }
 
     /**

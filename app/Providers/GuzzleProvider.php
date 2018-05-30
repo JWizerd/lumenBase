@@ -8,7 +8,7 @@ use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class GuzzleProvider extends ServiceProvider {
 
-    protected $base_uri;
+    protected $baseUri;
 
     protected $headers = [];
 
@@ -37,7 +37,7 @@ class GuzzleProvider extends ServiceProvider {
      */
     protected function api() 
     {
-        return (new Guzzle(['base_uri' => $this->base_uri]));   
+        return (new Guzzle(['base_uri' => $this->baseUri]));   
     }
 
     protected function setHeader(string $type, $value) 
