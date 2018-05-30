@@ -1,12 +1,9 @@
 #!/bin/bash
 
-echo "Creating home-net network"
-docker network create home-net
+#remove duplicate container if it exists
+docker rm -f recipes
 
-docker rm -f yourservice
-
-docker run --name="yourservice" \
-    -p 30010:80 \
-    -v /home/theringleman/Development/homeFinanceV2:/var/www/html/ \
-    --network='home-net' \
-    -d yourservice
+docker run --name="recipes" \
+    -p 3001:80 \
+    -v $(pwd):/var/www/html/ \
+    -d recipes

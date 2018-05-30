@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t yourservice .
+docker build -t recipes .

@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7-apache
 
 ENV root /var/www/html/
 WORKDIR $root
@@ -6,8 +6,6 @@ WORKDIR $root
 RUN apt-get update && \
 apt-get -y upgrade && \
 apt-get -y install git unzip vim
-
-RUN docker-php-ext-install bcmath
 
 RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
