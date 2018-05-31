@@ -4,20 +4,27 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use GuzzleHttp\Exception\TransferException;
 
 class GuzzleProvider extends ServiceProvider {
 
     protected static $baseUri;
+    protected static $guzzle = null;
 
     protected $headers = [];
 
     /**
-     * for better usability of GuzzleHttp\Client instantiation
-     * @return [obj]
+     * for better usability of GuzzleHttp\Client lets create singleton
+     * @link(php singleton using late static binding, https://stackoverflow.com/questions/203336/creating-the-singleton-design-pattern-in-php5)
+     * @return [obj] Guzzle instance
      */
-    protected function api() 
+    protected function api() : Guzzle
     {
-        return (new Guzzle(['base_uri' => static::$baseUri]));   
+        if (is_null(static::$guzzle)) {
+            static::$guzzle = (new Guzzle(['base_uri' => static::$baseUri]));   
+        }
+
+        return static::$guzzle;
     }
 
     protected function setHeader(string $type, $value) 
@@ -54,15 +61,19 @@ class GuzzleProvider extends ServiceProvider {
 
     public function get(string $endpoint, $params = []) 
     {
-        return json_decode(
-            $this->api()->get(
-                $endpoint, 
-                [
-                    'headers' => $this->headers,
-                    'query' => $params
-                ]
-            )->getBody()
-        );
+        try {
+            return $this->api()->get(
+                        $endpoint, 
+                        [
+                            'headers' => $this->headers,
+                            'query' => $params
+                        ]
+                    );
+        } catch (TransferException $e) {
+            echo 'External API Error' . $e->getMessage();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function postForm($endpoint, $data) {

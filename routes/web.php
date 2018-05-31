@@ -13,7 +13,7 @@
 
 $router->group(['middleware' => 'auth', 'prefix' => 'recipes'], function () use ($router) {
     $router->get('/', 'RecipeController@index');
-    $router->get('/{recipe}', 'RecipeController@show');
+    $router->get('search/{recipe}', 'RecipeController@search');
 });
 
 

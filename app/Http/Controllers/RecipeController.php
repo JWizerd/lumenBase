@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Recipe;
 use App\Models\EdamamApi as Edamam;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class RecipeController extends BaseController
@@ -16,11 +17,15 @@ class RecipeController extends BaseController
      * @param  int  $id
      * @return Response
      */
-    public function show($recipe) 
+    public function search($recipe) 
     {
         $edamam = new Edamam;
-
-        print_r($edamam);
-        var_dump(($edamam->get('search', $edamam->params(['q' => 'chicken']))));
+        $response = $edamam->get('search', $edamam->params(['q' => $recipe]));
+        return (
+            new Response(
+                    $response->getBody(), 
+                    $response->getStatusCode()
+                )
+            )->header('Content-Type', 'application/json');
     }
 }
