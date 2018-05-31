@@ -70,7 +70,7 @@ class GuzzleProvider extends ServiceProvider {
                         ]
                     );
         } catch (TransferException $e) {
-            echo 'External API Error' . $e->getMessage();
+            echo 'External API Error on GET' . $e->getMessage();
         } catch (Exception $e) {
             echo $e->getMessage();
         }
