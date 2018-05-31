@@ -18,6 +18,9 @@ class RecipeController extends BaseController
      */
     public function show($recipe) 
     {
-        print_r((new Edamam)->get('/search', ['q' => 'chicken']));
+        $edamam = new Edamam;
+
+        print_r($edamam);
+        var_dump(($edamam->get('search', $edamam->params(['q' => 'chicken']))));
     }
 }

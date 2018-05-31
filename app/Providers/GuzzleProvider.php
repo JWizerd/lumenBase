@@ -1,35 +1,15 @@
 <?php 
 
 namespace App\Providers;
-
 use Illuminate\Support\ServiceProvider;
 use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\Subscriber\Oauth\Oauth1;
 
 class GuzzleProvider extends ServiceProvider {
 
-    protected $baseUri;
+    protected static $baseUri;
 
     protected $headers = [];
-
-    /**
-     * The implementation of this method ensures that child classes 
-     * and more importantly, instantiated classes do not have direct access
-     * to credentials. This prevents security measures such as full object display
-     * via printing, __string(), and echo properties that could reveal sensitive information.
-     * @param  string $type the type of credential you need
-     * @return return the nested array of creds if exists
-     */
-    protected function getCredentials(string $type) 
-    {
-        $creds = require 'api_credentials.php';
-
-        if (array_key_exists($type, $creds)) {
-            return $creds[$type];
-        }
-
-        return false;
-    }
 
     /**
      * for better usability of GuzzleHttp\Client instantiation
@@ -37,7 +17,7 @@ class GuzzleProvider extends ServiceProvider {
      */
     protected function api() 
     {
-        return (new Guzzle(['base_uri' => $this->baseUri]));   
+        return (new Guzzle(['base_uri' => static::$baseUri]));   
     }
 
     protected function setHeader(string $type, $value) 
@@ -125,19 +105,6 @@ class GuzzleProvider extends ServiceProvider {
     public function boot()
     {
         //
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-        $this->app->bind('Client', function () {
-            return new Client;
-        });
     }
 
 }
