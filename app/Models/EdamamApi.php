@@ -36,9 +36,6 @@ class EdamamApi extends GuzzleProvider
         ];
     }
 
-    /**
-     * 
-     */
     public function params($otherParams) : array
     {
         return (!empty($this->baseParams)) ?

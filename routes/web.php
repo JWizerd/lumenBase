@@ -11,8 +11,12 @@
 |
 */
 
-$router->group(['middleware' => 'auth', 'prefix' => 'recipes'], function () use ($router) {
+/**
+ * @todo come back to add auth. Get with Dakota and Sam to see how to implement their current auth set up.
+ */
+$router->group(['prefix' => 'recipes'], function () use ($router) {
     $router->get('search/{recipe}', 'RecipeController@search');
+    $router->post('/add', 'RecipeController@add');
 });
 
 

@@ -41,7 +41,7 @@ class Authenticate
                 'WWW-Authenticate' => 'Basic', 
                 'Content-Type' => 'application/json'
             );
-            return response('Admin Login', 401, $headers);
+            return response($request, 200, $headers);
         }
 
         return $next($request);
