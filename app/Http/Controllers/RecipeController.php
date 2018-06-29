@@ -7,10 +7,13 @@ use App\Models\Recipe;
 use App\Models\EdamamApi as Edamam;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Laravel\Lumen\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class RecipeController extends BaseController
+class RecipeController extends Controller
 {
+    public $modelClass = Recipe::class;
+
     /**
      * Retrieve the user for the given ID.
      *
@@ -34,27 +37,32 @@ class RecipeController extends BaseController
 
     public function add(Request $request) 
     {
-        /**
-         * @todo data will be normalized in the edamam api before it is served to the view
-         *       and then hitting this action
-         */
-        $data = json_decode($request->getContent())->hits[0]->recipe;
+        $this->validate($request, [
+             'name' => 'required|string|max:60',
+             'nutrient_id' => 'required|integer|max:11',
+             'source' => 'string|max:255',
+             'image'  => 'string|max:255'
+         ]);
+
         $recipe = new Recipe;
 
         try {
-            $recipe->name = $data->label;
-            $recipe->url  = $data->url;
+
+            return parent::create($request);
+
         } catch(Exception $e) {
+
             echo $e->getMessage();
+
         }
     }
 
-    protected add_nutrients($data) 
+    protected function add_nutrients($data) 
     {
         $nutrient = new Nutrient;
     }
 
-    protected add_ingredients() 
+    protected function add_ingredients() 
     {
         $ingredients = new ingredient;
     }
